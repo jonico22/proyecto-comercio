@@ -19,7 +19,8 @@ async function grabarArchivo(ruta,newData) {
 }
 
 function searchId (file,id){
-    let search = file.filter(elm => elm.id === id)[0]
+    let search = file.filter(elm =>parseInt(elm.id) === parseInt(id))[0]
+    console.log(search)
     return search === undefined ? null : search
 }
 
@@ -61,7 +62,7 @@ class CrontrollerCarrito {
         if (result === null) {
             return null
         } else {
-            await grabarArchivo(this.ruta,JSON.stringify(file.filter(elm => elm.id !== id)))
+            await grabarArchivo(this.ruta,JSON.stringify(file.filter(elm => parseInt(elm.id) !== parseInt(id))))
         }
     }
 
