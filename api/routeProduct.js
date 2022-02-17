@@ -3,14 +3,14 @@ const route = express.Router();
 
 const CrontrollerProduct = require('./controllerProduct');
 const objController = new CrontrollerProduct();
-route.get('/', (req, res)=>{
-    let list =  objController.getAll(); 
+route.get('/', async (req, res)=>{
+    let list =  await objController.getAll();
     res.status(200).json(list);
 })
 
-route.get('/:id', (req, res)=>{
+route.get('/:id', async (req, res)=>{
     console.log(req.params.id)
-    let list =  objController.getById(req.params.id); 
+    let list = await objController.getById(req.params.id); 
     if ( list === null) {
         res.status(200).json( {error: 'producto no encontrado'});
     } else {
