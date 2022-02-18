@@ -68,7 +68,6 @@ class CrontrollerProduct {
     async updateById(id,data){
         let file = await leerArchivo(this.ruta)
         let search = searchId(file,id)
-        console.log(search)
         if ( search === null) {
             return null
         } else {

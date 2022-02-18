@@ -4,6 +4,7 @@ const route = express.Router();
 const CrontrollerCarrito = require('./controllerCarrito');
 const objController = new CrontrollerCarrito();
 
+
 route.get('/', async (req, res)=>{
     let list =  await objController.getAll(); 
     console.log(list)
@@ -41,7 +42,7 @@ route.post('/', async (req, res)=>{
 })
 
 route.put('/:id',async (req, res)=>{
-    console.log(req.body)
+   
     let list = await objController.updateById(req.params.id,req.body); 
     if ( list === null) {
         res.status(200).json( {error: 'producto no encontrado'});
