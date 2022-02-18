@@ -71,9 +71,11 @@ class CrontrollerCarrito {
         if ( search === null) {
             return null
         } else {
-            let result = this.search.filter(elm => Number(elm.id) === Number(id))[0]
+            let result = search.filter(elm => Number(elm.id) === Number(id))[0]
             data.productos !== undefined ? result.productos = data.productos :  null
-            return this.search
+            await grabarArchivo(this.ruta,JSON.stringify(file))
+            return result
+            
         }
     }
 

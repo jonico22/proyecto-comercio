@@ -22,11 +22,10 @@ route.get('/:id', async (req, res)=>{
 route.delete('/:id', async (req, res)=>{
     
     let list = await objController.deleteById(req.params.id); 
-    console.log(list)
     if ( list === null) {
         res.status(200).json( {error: 'producto no encontrado'});
     } else {
-        res.status(200).json(list);
+        res.status(200).json({message : "eliminado"});
     }
     
 })
@@ -39,7 +38,6 @@ route.post('/', async (req, res)=>{
 })
 
 route.put('/:id', async (req, res)=>{
-    console.log(req.body)
     let list = await objController.updateById(req.params.id,req.body); 
     if ( list === null) {
         res.status(200).json( {error: 'producto no encontrado'});

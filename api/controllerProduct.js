@@ -19,7 +19,7 @@ async function grabarArchivo(ruta,newData) {
 }
 
 function searchId (file,id){
-    let search = file.filter(elm => elm.id === id)[0]
+    let search = file.filter(elm => parseInt(elm.id) === parseInt(id))[0]
     return search === undefined ? null : search
 }
 
@@ -61,24 +61,26 @@ class CrontrollerProduct {
         if (result === null) {
             return null
         } else {
-            await grabarArchivo(this.ruta,JSON.stringify(file.filter(elm => elm.id !== id)))
+            await grabarArchivo(this.ruta,JSON.stringify(file.filter(elm => parseInt(elm.id) !== parseInt(id))))
         }
     }
 
     async updateById(id,data){
         let file = await leerArchivo(this.ruta)
         let search = searchId(file,id)
+        console.log(search)
         if ( search === null) {
             return null
         } else {
-            let result = this.search.filter(elm => Number(elm.id) === Number(id))[0]
+            let result = file.filter(elm => Number(elm.id) === Number(id))[0]
             data.nombre !== undefined ? result.nombre = data.nombre :  null
             data.descripcion !== undefined ? result.descripcion = data.descripcion :  null
             data.codigo !== undefined ? result.codigo = data.codigo :  null
             data.foto !== undefined ? result.foto = data.foto :  null
             data.precio !== undefined ? result.precio = data.precio :  null
             data.stock !== undefined ? result.stock = data.stock :  null
-            return this.search
+            await grabarArchivo(this.ruta,JSON.stringify(file))
+            return result
         }
     }
 
