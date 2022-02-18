@@ -19,9 +19,9 @@ route.get('/:id', async (req, res)=>{
     
 })
 
-route.delete('/:id', (req, res)=>{
+route.delete('/:id', async (req, res)=>{
     
-    let list =  objController.deleteById(req.params.id); 
+    let list = await objController.deleteById(req.params.id); 
     console.log(list)
     if ( list === null) {
         res.status(200).json( {error: 'producto no encontrado'});
@@ -31,14 +31,16 @@ route.delete('/:id', (req, res)=>{
     
 })
 
-route.post('/', (req, res)=>{
+route.post('/', async (req, res)=>{
     let data =  req.body
-    res.status(200).json( objController.save(data));   
+    data['timestamp'] = Date.now()
+    let resp = await objController.save(data) 
+    res.status(200).json( resp);   
 })
 
-route.put('/:id', (req, res)=>{
+route.put('/:id', async (req, res)=>{
     console.log(req.body)
-    let list =  objController.updateById(req.params.id,req.body); 
+    let list = await objController.updateById(req.params.id,req.body); 
     if ( list === null) {
         res.status(200).json( {error: 'producto no encontrado'});
     } else {
