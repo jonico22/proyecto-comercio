@@ -42,11 +42,32 @@ class CrontrollerCarrito {
         await grabarArchivo(this.ruta,JSON.stringify(file))
         return newId
     }
+    async saveOne(product,id){
+        let file = await leerArchivo(this.ruta)
+        let search = searchId(file,id)
+        console.log(id)
+        if (search === null) {
+            return null
+        } else {
+           search.producto.push(product.producto)  
+           file[parseInt(id)-1]['producto'] = search.producto
+           console.log(file[parseInt(id)-1]['producto'])
+           await grabarArchivo(this.ruta,JSON.stringify(file))
+           return file
+        }
+        
+    }
 
     async getById(id){
         let file = await leerArchivo(this.ruta)
         let result =  searchId(file,id)
         return result
+    }
+
+    async getByIdProd(id){
+        let file = await leerArchivo(this.ruta)
+        let result = searchId(file,id)
+        return result.producto
     }
 
     async getAll(){
@@ -62,6 +83,19 @@ class CrontrollerCarrito {
             return null
         } else {
             await grabarArchivo(this.ruta,JSON.stringify(file.filter(elm => parseInt(elm.id) !== parseInt(id))))
+        }
+    }
+
+    async deleteByIdProduct(id,id_prod){
+        let file = await leerArchivo(this.ruta)
+        let result =  searchId(file,id)
+        if (result === null) {
+            return null
+        } else {
+          let data =  result.producto.filter(elm => parseInt(elm.id) !== parseInt(id_prod))
+          file[parseInt(id)-1]['producto'] = data
+          console.log(file)
+          await grabarArchivo(this.ruta,JSON.stringify(file))
         }
     }
 
